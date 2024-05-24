@@ -49,8 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (!response.ok) {
 					throw new Error(response.status, response.statusText)
 				}
-				const data = await response.json();
-				setStore ({contacts: data.contacts});
+				getActions().loadAgendaContacts();
 			}
 		}
 	};

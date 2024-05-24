@@ -11,13 +11,13 @@ const Contacts = () => {
                 {
                 store.contacts.map(contact => {
                     return(
-                        <>
-                            <ContactCard key={contact.id} name={contact.name} address={contact.address} phone={contact.phone} email={contact.email} />
-                            <button>Update</button>
-                            <button onClick={actions.deleteContact(contact.id)}>Delete</button>
-                        </>
                         
-                    )
+                        <div key={contact.id}>
+                            <ContactCard name={contact.name} address={contact.address} phone={contact.phone} email={contact.email} />
+                            <button>Update</button>
+                            <button onClick={() => actions.deleteContact(contact.id)}>Delete</button>
+                        </div>
+                )
                 })
                 }
             </div>
