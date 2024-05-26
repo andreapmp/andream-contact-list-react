@@ -39,8 +39,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			// You will need functions to:
 			// Post new contacts through the API
+			createNewContact: async (newContact) => {
+				const response = await  fetch("https://playground.4geeks.com/contact/agendas/andream/contacts", {
+					method: "POST",
+					body: JSON.stringify(newContact),
+					headers: {
+						'Content-type': 'application/json'
+					}
+				})
+				if(!response.ok) {
+					throw new Error(response.status, response.statusText)
+				}
+			},
+
 			// Put (update) contact through the API
-			
+			updateContact: async (contactId, updatedContact) => {
+				const response = await  fetch(`https://playground.4geeks.com/contact/agendas/andream/contacts/${contactId}`, {
+					method: "PUT",
+					body: JSON.stringify(updatedContact),
+					headers: {
+						'Content-type': 'application/json'
+					}
+				})
+				if(!response.ok) {
+					throw new Error(response.status, response.statusText)
+				}
+				getActions().loadAgendaContacts();
+			},
+
 			// Delete contacts through the API
 			deleteContact: async (contactId) => {
 				const response = await fetch(`https://playground.4geeks.com/contact/agendas/andream/contacts/${contactId}`, {
