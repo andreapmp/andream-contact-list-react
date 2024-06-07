@@ -37,36 +37,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json();
 				setStore ({contacts: data.contacts});
 			},
-			// You will need functions to:
 			// Post new contacts through the API
 			createNewContact: async (newContact) => {
-				const response = await  fetch("https://playground.4geeks.com/contact/agendas/andream/contacts", {
+				const response = await fetch("https://playground.4geeks.com/contact/agendas/andream/contacts", {
 					method: "POST",
 					body: JSON.stringify(newContact),
 					headers: {
 						'Content-type': 'application/json'
 					}
-				})
+				});
 				if(!response.ok) {
 					throw new Error(response.status, response.statusText)
 				}
+				const data = await response.json();
+				return data;
 			},
-
 			// Put (update) contact through the API
 			updateContact: async (contactId, updatedContact) => {
-				const response = await  fetch(`https://playground.4geeks.com/contact/agendas/andream/contacts/${contactId}`, {
+				const response = await fetch(`https://playground.4geeks.com/contact/agendas/andream/contacts/${contactId}`, {
 					method: "PUT",
 					body: JSON.stringify(updatedContact),
 					headers: {
 						'Content-type': 'application/json'
 					}
-				})
+				});
 				if(!response.ok) {
-					throw new Error(response.status, response.statusText)
+					throw new Error(response.status, response.statusText);
 				}
-				getActions().loadAgendaContacts();
+				const data = await response.json();
+				const store = getStore();
+				const editedContact = store.contacts.map(contact =>
+					contact.id === parseInt(contactId) ? data : contact
+				);
+				setStore({ contacts: editedContact });
 			},
-
 			// Delete contacts through the API
 			deleteContact: async (contactId) => {
 				const response = await fetch(`https://playground.4geeks.com/contact/agendas/andream/contacts/${contactId}`, {
