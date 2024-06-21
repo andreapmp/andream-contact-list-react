@@ -1,35 +1,34 @@
-import React, { useState, useContext } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useNavigate, useParams} from "react-router-dom";
 import { Context } from "../store/appContext";
 
-const AddContact = () => {
+const EditContact = () => {
     const { store, actions } = useContext(Context);
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [email, setEmail] = useState("")
     const [address, setAddress] = useState("")
+    let params = useParams() 
+
+    useEffect(() => {
+        let contact = store.contacts.find((item, index)=>item.id == params.id)
+        setName(contact.name),
+        setPhone(contact.phone),
+        setEmail(contact.email),
+        setAddress(contact.address)
+    }, [])
     
     function handleClick() {
         let contact= {name: name, email: email, phone: phone, address: address, agenda_slug: "andream"}
-        actions.createNewContact(contact)
-        window.location.reload()
+        actions.editContact(params.id, contact)
+        navigate("/")
     }
 
     let navigate = useNavigate();
 
-    const sendContact = (e) => {
-        e.preventDefault()
-        actions.addNewContact(name,email,phone,address)
-        setName("")
-        setEmail("")
-        setPhone("")
-        setAddress("")
-        navigate("/")
-    }
-
     return (
         <>
-            <div className="mx-4">
+            <div>
                 <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label">Full Name</label>
                     <input onChange={(e)=>setName(e.target.value)} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Full name" />
@@ -47,11 +46,9 @@ const AddContact = () => {
                     <input onChange={(e)=>setAddress(e.target.value)} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Enter Address"  />
                 </div>
             </div>
-            <div className="d-grid gap-2 col-6 mx-auto">
-                <button className="btn btn-primary fw-bold" onClick={() =>handleClick()}>Save Contact</button>
-            </div>
+            <button className="btn btn-primary" onClick={() =>handleClick()}>Save Contact</button>
         </>
     );
 }
 
-export default AddContact;
+export default EditContact;

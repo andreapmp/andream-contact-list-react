@@ -4,13 +4,13 @@ import AddContact from "../views/AddContact.jsx";
 
 export const Navbar = () => {
 	return (
-		<nav className="navbar navbar-light bg-light">
+		<nav className="navbar navbar-light bg-light mb-3">
 			<Link to="/">
-				<span className="navbar-brand mb-0"><h3>Contact List</h3></span>
+				<span className="navbar-brand mb-0 h1">Contact List</span>
 			</Link>
 			<div className="ml-auto">
 				<Link to="/addcontact">
-					<button className="btn btn-success"><h5>Add new contact</h5></button>
+					<button className="btn btn-success fw-bold">Add contact</button>
 				</Link>
 			</div>
 		</nav>

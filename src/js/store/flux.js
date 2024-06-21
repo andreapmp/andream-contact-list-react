@@ -15,6 +15,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			// changeColor: (index, color) => {
 			// 	//get the store
+
 			// 	const store = getStore();
 
 			// 	//we have to loop the entire demo array to look for the respective index
@@ -53,7 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return data;
 			},
 			// Put (update) contact through the API
-			updateContact: async (contactId, updatedContact) => {
+			editContact: async (contactId, updatedContact) => {
 				const response = await fetch(`https://playground.4geeks.com/contact/agendas/andream/contacts/${contactId}`, {
 					method: "PUT",
 					body: JSON.stringify(updatedContact),
@@ -64,12 +65,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(!response.ok) {
 					throw new Error(response.status, response.statusText);
 				}
-				const data = await response.json();
-				const store = getStore();
-				const editedContact = store.contacts.map(contact =>
-					contact.id === parseInt(contactId) ? data : contact
-				);
-				setStore({ contacts: editedContact });
+				getActions().loadAgendaContacts()
+				return true;
+
+				
 			},
 			// Delete contacts through the API
 			deleteContact: async (contactId) => {
