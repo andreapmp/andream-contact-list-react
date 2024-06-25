@@ -51,7 +51,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw new Error(response.status, response.statusText)
 				}
 				const data = await response.json();
-				return data;
+				return true;
 			},
 			// Put (update) contact through the API
 			editContact: async (contactId, updatedContact) => {
@@ -67,8 +67,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				getActions().loadAgendaContacts()
 				return true;
-
-				
 			},
 			// Delete contacts through the API
 			deleteContact: async (contactId) => {
